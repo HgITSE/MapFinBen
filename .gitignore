@@ -1,0 +1,21 @@
+.idea
+
+# ===== env vars =====
+.env
+.env.*
+!.env.example
+
+# ===== data =====
+data/*
+!data/README.md
+
+__pycache__/
+*.py[cod]
+
+# ===== Outputs =====
+logs/
+checkpoints/
+main/outputs
+
+# ===== Temp =====
+main
