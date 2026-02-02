@@ -544,7 +544,7 @@ $$\text{任务得分} = \frac{\sum_{j=1}^{m} \text{指标得分}_j}{m}$$
 
 ## 8 企业赞助
 
-<img src="https://virtaitech.com/images/bg_compute.jpeg" alt="Virual Tech Logo" height="60">
+<img src=".github/images/bg_compute.jpeg" alt="Virual Tech Logo" height="60">
 
 趋动科技（[VirtAITech](https://virtaicloud.com/)）作为软件定义AI算力技术的领导厂商，专注于为全球用户提供国际领先的数据中心级AI算力虚拟化和资源池化软件及解决方案。
 
