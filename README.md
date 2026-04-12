@@ -38,6 +38,18 @@
 
  CCL（China National Conference on Computational Linguistics）为中国计算语言学大会，会议主办单位为中国中文信息学会。CCL是中国中文信息学会(CIPS)的重要会议，是中国最大的自然语言处理学者和专家的社区。经过三十年的发展，CCL被广泛认为是最权威的，全国最具影响力、规模最大的NLP会议。随着计算机语言处理在中国的发展，CCL已经成为在全国范围内传播计算语言新学术和技术工作的主要论坛。
 
+## 📢 报名
+
+<div align="center">
+  <strong>🚀 CCL26-Eval-MapFinBen 评测报名进行中！</strong>
+</div>
+
+| 🎯 状态 | 🔗 报名方式 |
+|--------|------------|
+| 🟢 报名开放中 | [立即报名](https://docs.qq.com/form/page/DS0N6SGJuc3JuZXp6) |
+
+> 💡 **提示**: 报名成功后，我们将发送邮件确认您已成功参赛。详情见 [评测报名及语料申请](#9-评测报名及语料申请)
+
 ## 目录
 
 1. [框架介绍](#1-框架介绍) 
@@ -488,7 +500,9 @@ python ../src/eval.py \
 
 &emsp;&emsp;2026年2月1日：评测任务报名开始；
 
-&emsp;&emsp;2026年3月10 日：报名截至； 
+&emsp;&emsp;2026年3月10日：评测任务报名截至； 
+
+&emsp;&emsp;2026年3月15日：CCL26宣传发布；
 
 &emsp;&emsp;2026年5月-6月：各报名参赛队开展技术评测； 
 
@@ -544,20 +558,14 @@ $$\text{任务得分} = \frac{\sum_{j=1}^{m} \text{指标得分}_j}{m}$$
 
 ## 8 企业赞助
 
-<img src=".github/images/bg_compute.jpeg" alt="Virual Tech Logo" height="60">
-
-趋动科技（[VirtAITech](https://virtaicloud.com/)）作为软件定义AI算力技术的领导厂商，专注于为全球用户提供国际领先的数据中心级AI算力虚拟化和资源池化软件及解决方案。
-
-* 本次评测任务由趋动科技重磅推出的AI开发训练平台“趋动云（virtaicloud.com）”独家冠名，并为每个参赛队伍提供免费300算力金赞助，可自由选择空闲显卡。
-* 每个参赛队伍必须通过报名发放算力金，需以老师的名义注册账号且仅提供一次算力支持不能成员累积叠加，超出算力的费用会被限制使用，可联系企业另行协商。
-
-<img src="https://i.postimg.cc/XvVcGDR1/loongtex.png" alt="LoongTex Tech Logo" height="60">
-
-龙文([LoongTex](https://app.loongtex.com/))是为科研人员设计的全新 LaTeX 平台，集白板、笔记、论文写作于一体，支持云端协作，利用多模态 AI全程参与学术润色提升科研效率。  
+欢迎企业提供奖金、算力赞助 
 
 ## 9 评测报名及语料申请
 
-将于相关内容可用后同步到github
+
+| 🎯 状态 | 🔗 报名方式 |
+|--------|------------|
+| 🟢 报名开放中 | [立即报名](https://docs.qq.com/form/page/DS0N6SGJuc3JuZXp6) |
 
 ---
 
