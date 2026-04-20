@@ -6,8 +6,7 @@
 !.env.example
 
 # ===== data =====
-data/*
-!data/README.md
+data/**/*_test.json
 
 __pycache__/
 *.py[cod]
