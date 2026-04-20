@@ -36,6 +36,10 @@
 ![YNU](https://img.shields.io/badge/CCL_Eval_2026-YNU-blue.svg "sign up")
 * 孔晓勇，云南大学硕士研究生[![Email](https://img.shields.io/badge/Email-%F0%9F%93%A7-blue)](mailto:kongxiaoyong@stu.ynu.edu.cn)
 
+ ## 团队成员
+* 研究生（王情情、张群、 陈雅婷、张群、韦甜、陈雅婷）
+* 本科生（秦一鸣、吕思齐、王振旭、赵爱嘉、蒋亿乐）
+
  CCL（China National Conference on Computational Linguistics）为中国计算语言学大会，会议主办单位为中国中文信息学会。CCL是中国中文信息学会(CIPS)的重要会议，是中国最大的自然语言处理学者和专家的社区。经过三十年的发展，CCL被广泛认为是最权威的，全国最具影响力、规模最大的NLP会议。随着计算机语言处理在中国的发展，CCL已经成为在全国范围内传播计算语言新学术和技术工作的主要论坛。
 
 ## 📢 报名
@@ -55,7 +59,6 @@
 本项目所使用的数据位于项目目录下的 [`data`](./data) 文件夹中，当前按五个任务分别组织为 `CroFinAS`、`CroFinQA`、`CroFinSA`、`CroFinTC` 和 `CroFinTS` 五个子目录。每个任务目录下均提供对应的 `train`、`valid` 和 `test` 格式的 JSON 数据文件，可用于训练、验证与评测。
 
 更详细的目录结构与文件说明请参见 [`data/README.md`](./data/README.md)。
-
 ## 目录
 
 1. [框架介绍](#1-框架介绍) 
@@ -505,6 +508,8 @@ python ../src/eval.py \
 ## 6.1 赛程UTC+8
 
 &emsp;&emsp;2026年2月1日：评测任务报名开始；
+
+&emsp;&emsp;2026年3月10日：评测任务报名截至； 
 
 &emsp;&emsp;2026年3月15日：CCL26宣传发布；
 
