@@ -1,0 +1,257 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MapFinBen"
+version = "1.0.0"
+description = "Financial Benchmark for Large Language Models"
+authors = [
+    {name = "MapFinBen Team", email = "kongxiaoyong@stu.ynu.edu.cn"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = ["nlp", "evaluation", "finance", "llm", "benchmark"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+dependencies = [
+    # Core ML/DL dependencies
+    "torch>=2.0,<2.4",
+    "transformers>=4.30,<4.42",
+    "peft>=0.4,<0.11",
+    "accelerate>=0.20,<0.31",
+    "huggingface-hub>=0.16,<0.24",
+    "packaging>=23,<25",
+    
+    # Data processing
+    "numpy>=1.23,<2",
+    "pandas>=1.5,<2.3",
+    "datasets>=2.12,<2.20",
+    "scikit-learn>=1.0,<1.5",
+    "scipy>=1.9,<1.14",
+    "einops>=0.6,<0.8",
+    
+    # Evaluation metrics
+    "evaluate>=0.4,<0.5",
+    "rouge-score>=0.1.2,<0.2",
+    "bert-score>=0.3.13,<0.4",
+    "sacrebleu==1.5.0",
+    
+    # Text processing
+    "absl-py>=1.4,<2.2",
+    "sentencepiece>=0.1.98,<0.3",
+    "protobuf>=4.22.1,<5",
+    "seqeval>=1.2,<1.3",
+    "nagisa>=0.2.7,<0.3",
+    "jieba>=0.42.1,<0.43",
+    "nltk>=3.8,<4",
+    "spacy>=3.5,<3.8",
+    "rank-bm25>=0.2.2,<0.3",
+    "six>=1.16,<2",
+    
+    # Model serving and APIs
+    "openai>=1.3,<2",
+    "httpx>=0.24,<0.28",
+    "anthropic>=0.25,<0.35",
+    "requests>=2.28,<3",
+    
+    # Utilities
+    "tqdm>=4.64,<5",
+    "tqdm-multiprocess>=0.0.11,<0.1",
+    "omegaconf>=2.2,<2.4",
+    "sqlitedict>=2.0,<3",
+    "pycountry>=22,<25",
+    "pytablewriter>=0.64,<1.3",
+    "jsonlines>=3.1,<5",
+    "numexpr>=2.8,<3",
+    "zstandard>=0.19,<0.23",
+    "pybind11>=2.10,<2.13",
+    "importlib-resources>=5.12,<7",
+    "psutil>=5.9,<6",
+    
+    # Web interface
+    "gradio>=3.50,<4",
+    "gradio-client>=0.6,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22,<24",
+    "flake8>=4,<7",
+    "pre-commit>=2.17,<4",
+    "pytest>=7,<8",
+    "pytest-cov>=3,<5",
+    "mypy>=0.950,<1.8",
+    "isort>=5.10,<6",
+]
+
+multilingual = [
+    "nagisa>=0.2.7,<0.3",
+    "jieba>=0.42.1,<0.43",
+]
+
+auto-gptq = [
+    "auto-gptq[triton]>=0.6,<0.8",
+]
+
+cpu = [
+    "torch>=2.0,<2.4",
+    "transformers>=4.30,<4.42",
+]
+
+cuda = [
+    "torch>=2.0,<2.4",
+    "transformers>=4.30,<4.42",
+    "accelerate>=0.20,<0.31",
+]
+
+# VLLM is optional due to compilation issues
+vllm = [
+    "vllm>=0.4.0,<0.6",
+]
+
+factscore = [
+    "sentence-transformers>=2.2,<3",
+]
+
+truthfulqa = [
+    "bleurt @ https://github.com/google-research/bleurt/archive/b610120347ef22b494b6d69b4316e303f5932516.zip",
+]
+
+minimal = [
+    "torch>=2.0,<2.4",
+    "transformers>=4.30,<4.42",
+    "numpy>=1.23,<2",
+    "pandas>=1.5,<2.3",
+    "tqdm>=4.64,<5",
+    "omegaconf>=2.2,<2.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/MapFinBen/MapFinBen"
+Documentation = "https://mapfinben.readthedocs.io"
+Repository = "https://github.com/MapFinBen/MapFinBen"
+Issues = "https://github.com/MapFinBen/MapFinBen/issues"
+
+[project.scripts]
+mapfinben-eval = "eval:main"
+mapfinben-service = "service:MyService.main"
+
+[tool.setuptools]
+package-dir = {"" = "main/src"}
+py-modules = ["chatlm", "eval", "evaluator", "interface", "model_prompt", "service", "utils"]
+
+[tool.setuptools.packages.find]
+where = ["main/src"]
+include = ["financial_evaluation*", "tasks*", "factscore_package*"]
+namespaces = true
+exclude = ["tests*", "docs*", "__pycache__*"]
+
+[tool.setuptools.package-data]
+"financial_evaluation" = ["**/*.json", "**/*.txt", "**/*.yaml", "**/*.yml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["financial_evaluation", "tasks", "factscore_package"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "transformers.*",
+    "torch.*",
+    "datasets.*",
+    "evaluate.*",
+    "bert_score.*",
+    "vllm.*",
+    "gradio.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["main/src/financial_evaluation/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=financial_evaluation",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["main/src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/.*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

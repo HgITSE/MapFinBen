@@ -10,11 +10,13 @@ data/**/*_test.json
 
 __pycache__/
 *.py[cod]
+*.egg-info/
+**/.cache/
+**/.ipynb_checkpoints/
+*.tar.gz
 
 # ===== Outputs =====
 logs/
 checkpoints/
 main/outputs
-
-# ===== Temp =====
-main
+main/src/financial_evaluation/tests/testdata/

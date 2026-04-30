@@ -51,6 +51,11 @@
 | 🎯 状态 | 🔗 报名方式 |
 |--------|------------|
 | 🟢 报名开放中 | [立即报名](https://docs.qq.com/form/page/DS0N6SGJuc3JuZXp6) |
+| 🟢 天池入口 | [进入比赛](https://tianchi.aliyun.com/competition/entrance/532471) |
+
+<p align="center">
+  <img src=".github/images/qrcode.png" width="300"/>
+</p>
 
 > 💡 **提示**: 报名成功后，我们将发送邮件确认您已成功参赛。详情见 [评测报名及语料申请](#9-评测报名及语料申请)
 
@@ -450,45 +455,115 @@ $$
 ```bash
 git clone https://github.com/MapFinBen/MapFinBen.git
 cd MapFinBen
-conda env create -f environment.yml
-conda env activate mapfinben_environment
-cd main
+conda create -n mapfinben python=3.10 -y
+conda activate mapfinben
+python -m pip install --upgrade pip
 pip install -e .
 ```
+
+依赖统一由根目录 `pyproject.toml` 管理。按需安装可选组件：
+
+```bash
+# 开发、测试工具
+pip install -e ".[dev]"
+
+# vLLM 推荐在 Linux + CUDA GPU 环境安装；
+pip install -e ".[vllm]"
+
+# AutoGPTQ / FActScore / TruthfulQA 等可选功能
+pip install -e ".[auto-gptq]"
+pip install -e ".[factscore]"
+pip install -e ".[truthfulqa]"
+```
+
+#### 使用评测脚本
+
+仓库提供了位于 `main/script` 的本地模型评测脚本，脚本会读取项目根目录 `.env` 中的配置，也可以在命令行中临时设置同名环境变量覆盖。
+
+常用配置项如下：
+
+| 变量 | 说明 | 示例 |
+|:--|:--|:--|
+| `MAPFIN_DATA_PATH` | 数据目录，默认使用项目根目录下的 `data` | `D:\items\MapFinBen\data` |
+| `MAPFIN_EVAL_SPLIT` | 评测数据划分，支持 `test`、`valid`，默认 `test` | `valid` |
+| `MAPFIN_TASK_LIST` | 要运行的任务列表，空格分隔 | `mapfin_AS mapfin_QA` |
+| `MAPFIN_LIMIT` | 限制每个任务评测样本数，调试时可设为较小值 | `10` |
+| `MAPFIN_MODEL_PATH` | 本地模型路径，供 `run.bat` / `run.sh` 使用 | `D:\models\Qwen3-0.6B` |
+| `MAPFIN_MODEL_NAME` | 输出文件名前缀 | `qwen3-0.6b` |
+
+Windows 本地模型评测：
+
+```bat
+set MAPFIN_MODEL_PATH=D:\models\Qwen3-0.6B
+set MAPFIN_MODEL_NAME=qwen3-0.6b
+set MAPFIN_EVAL_SPLIT=valid
+set MAPFIN_TASK_LIST=mapfin_AS mapfin_QA
+set MAPFIN_LIMIT=10
+main\script\run.bat
+```
+
+Linux 本地模型评测：
+
+```bash
+export MAPFIN_MODEL_PATH=/absolute/path/to/local/model
+export MAPFIN_MODEL_NAME=qwen3-0.6b
+export MAPFIN_EVAL_SPLIT=valid
+export MAPFIN_TASK_LIST="mapfin_AS mapfin_QA"
+export MAPFIN_LIMIT=10
+bash main/script/run.sh
+```
+
+脚本输出默认写入 `main/outputs`，详细 prompt 和模型输出会写入 `main/outputs/write_out`。
 
 #### 自动化任务评测
 
 1.使用OpenAI的api接口形式进行评测，其中，模型可以通过 Ollama 部署，并以 OpenAI 接口形式进行调用
 
 ```bash
-export OPENAI_CHAT_URL="your_chat_url"  
-export OPENAI_API_SECRET_KEY="your_api_key "
+export MAPFIN_DATA_PATH="$(pwd)/data"
+export OPENAI_CHAT_URL="http://127.0.0.1:11434/v1/chat/completions"
+export OPENAI_API_SECRET_KEY="EMPTY"
+model="your-model-name"
+task="mapfin_AS,mapfin_QA,mapfin_SA,mapfin_TC,mapfin_TS"
+model_name="$model"
+max_gen_toks=200
+temperature=0
 
-python ../src/eval.py \
+python main/src/eval.py \
             --model "$model" \
-            --url "$url" \
             --tasks "$task" \
             --model_args max_gen_toks=$max_gen_toks,temperature=$temperature \
             --no_cache \
             --write_out \
-            --output_path "../outputs" \
+            --output_path "main/outputs" \
             --output_base_path "$model_name"
 ```
 
 2.	本地模型下载部署评测
 ```bash
-model_path="your_ model_path "
+export MAPFIN_DATA_PATH="$(pwd)/data"
+model_path="/absolute/path/to/local/model"
 model_name=$(basename "$model_path")
+tasks="mapfin_AS,mapfin_QA,mapfin_SA,mapfin_TC,mapfin_TS"
 
-python ../src/eval.py \
+python main/src/eval.py \
     --model hf-causal-vllm \
     --tasks "$tasks" \
-    --model_args use_accelerate=True,pretrained=$model_path,tokenizer=$model_path,use_fast=False,max_gen_toks=200,dtype=float16,trust_remote_code=True \
+    --model_args use_accelerate=True,pretrained=$model_path,tokenizer=$model_path,use_fast=False,max_gen_toks=200,dtype=auto,trust_remote_code=True \
     --no_cache \
     --batch_size 1 \
-    --output_path "../outputs" \
+    --device auto \
+    --output_path "main/outputs" \
     --write_out \
     --output_base_path "$model_name"
+```
+
+如果希望先把本地模型常驻内存，再运行评测：
+
+```bash
+python main/src/service.py start --model-path "$model_path" --batch-size 1 --device auto
+python main/src/eval.py --model service --tasks "$tasks" --model_args port=50000 --no_cache
+python main/src/service.py stop
 ```
 
 常见模型使用的`` model ``参数如下表所示（一般hf-causal-vllm都能支持）:
